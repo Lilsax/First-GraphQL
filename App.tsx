@@ -5,8 +5,8 @@
  * @format
  */
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import React, { useEffect } from 'react';
+import type { CSSProperties, PropsWithChildren } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -29,7 +29,7 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-function Section({children, title}: SectionProps): React.JSX.Element {
+function Section({ children, title }: SectionProps): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <View style={styles.sectionContainer}>
@@ -58,9 +58,21 @@ function Section({children, title}: SectionProps): React.JSX.Element {
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
+  const backgroundStyle: CSSProperties = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+
+  backgroundStyle.zIndex = 12;
+
+  useEffect(() => {
+    console.log('sleman zz');
+    setTimeout(() => {
+      console.log('PPPPP', {
+        user: 'name',
+        pass: '123123123',
+      });
+    }, 10000);
+  }, []);
 
   return (
     <SafeAreaView style={backgroundStyle}>
