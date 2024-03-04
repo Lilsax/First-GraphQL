@@ -55,7 +55,6 @@ function Home({ navigation }: HomeProps): React.JSX.Element {
     const styles = getStyles("pink");
 
     const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-        console.log(event.nativeEvent.contentOffset.y);
         setScrollValue(event.nativeEvent.contentOffset.y);
     };
 

@@ -47,20 +47,6 @@ function Details(): React.JSX.Element {
         onCompleted: (_data) => {
             console.log(_data);
         },
-        // update(cache, { data }) {
-        //     try {
-        //         const _incrementTrackViews: Track = data.incrementTrackViews;
-        //         cache.modify({
-        //             fields: {
-        //                 tracksForHome(existingTracksForHome = []) {
-        //                     return [_incrementTrackViews, ...existingTracksForHome]
-        //                 }
-        //             },
-        //         });
-        //     } catch (e) {
-        //         console.log("e", e)
-        //     }
-        // },
     })
 
 

@@ -2,7 +2,6 @@
 
 import { gql } from '@apollo/client';
 
-
 const increaseTrackView = gql`
 mutation IncrementTrackViews($incrementTrackViewsId: ID!) {
   incrementTrackViews(id: $incrementTrackViewsId) {
@@ -31,6 +30,6 @@ mutation IncrementTrackViews($incrementTrackViewsId: ID!) {
     success
     code
   }
-}`
+}`;
 
-export { increaseTrackView }
+export { increaseTrackView };
