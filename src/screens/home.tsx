@@ -27,6 +27,8 @@ import { NavigationProp } from "@react-navigation/native";
 import { getHomeData } from '../graphQL/queries'
 import Card from "../components/card";
 import { Query, Track } from "../__generated__/graphql";
+import { SafeAreaView } from "react-native-safe-area-context";
+SafeAreaView
 // Define types for your data
 
 
@@ -91,11 +93,8 @@ function Home({ navigation }: HomeProps): React.JSX.Element {
         );
     }
     return (
-        <ScrollView
-            ref={scrollRef}
-            onScroll={handleScroll}
-            style={styles.container}
-        >
+
+        <SafeAreaView style={{ flex: 1 }}>
             <Button onPress={() => {
                 setFilterValue('')
                 refetch()
@@ -106,24 +105,29 @@ function Home({ navigation }: HomeProps): React.JSX.Element {
                 title="Get Data"
                 color={"pink"}
             />
-
-            <TextInput
-                style={styles.input}
-                value={filterValue}
-                placeholder="useless placeholder"
-                onChangeText={handleCityNameChange}
-            />
-            {data?.tracksForHome.map((item: Track) => {
-                if (item.title.includes(filterValue)) {
-                    return (
-                        <Card key={item.id} description={item.description} title={item.title} thumbnail={item.thumbnail} handlePress={() => navigation.navigate("Details", {
-                            itemId: item.id,
-                            title: item.title,
-                        })} numberOfViews={item.numberOfViews} />
-                    );
-                }
-            })}
-        </ScrollView>
+            <ScrollView
+                ref={scrollRef}
+                onScroll={handleScroll}
+                style={styles.container}
+            >
+                <TextInput
+                    style={styles.input}
+                    value={filterValue}
+                    placeholder="useless placeholder"
+                    onChangeText={handleCityNameChange}
+                />
+                {data?.tracksForHome.map((item: Track) => {
+                    if (item.title.includes(filterValue)) {
+                        return (
+                            <Card key={item.id} description={item.description} title={item.title} thumbnail={item.thumbnail} handlePress={() => navigation.navigate("Details", {
+                                itemId: item.id,
+                                title: item.title,
+                            })} numberOfViews={item.numberOfViews} />
+                        );
+                    }
+                })}
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 
