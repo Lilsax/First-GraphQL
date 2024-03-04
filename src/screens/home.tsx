@@ -96,7 +96,10 @@ function Home({ navigation }: HomeProps): React.JSX.Element {
             onScroll={handleScroll}
             style={styles.container}
         >
-            <Button onPress={() => refetch()} title="Refresh" />
+            <Button onPress={() => {
+                setFilterValue('')
+                refetch()
+            }} title="Refresh" />
             <View style={{ marginVertical: 10 }} />
             <Button
                 onPress={() => console.log("commenting") /*getData()*/}
