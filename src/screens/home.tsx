@@ -23,25 +23,27 @@ import {
 } from "react-native";
 import { useQuery, NetworkStatus /*useLazyQuery*/ } from "@apollo/client";
 import { QueryResult } from "@apollo/client";
-import { NavigationProp } from "@react-navigation/native";
+import { CompositeNavigationProp, useNavigation } from "@react-navigation/native";
 import { getHomeData } from '../graphQL/queries'
 import Card from "../components/card";
 import { Query, Track } from "../__generated__/graphql";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { MainStackType, HomeStackType } from "../../navigation";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
 SafeAreaView
 // Define types for your data
 
 
-type RootStackParamList = {
-    Home: undefined;
-    Details: { itemId: string, title: string };
-};
 
-type HomeProps = {
-    navigation: NavigationProp<RootStackParamList, "Home">;
-};
+type HomeNavigationProp = CompositeNavigationProp<
+    NativeStackNavigationProp<HomeStackType, 'Home'>,
+    NativeStackNavigationProp<MainStackType>
+>;
 
-function Home({ navigation }: HomeProps): React.JSX.Element {
+
+function Home(): React.JSX.Element {
+    const navigation = useNavigation<HomeNavigationProp>();
     const scrollRef = useRef<ScrollView>(null);
     const [scrollValue, setScrollValue] = useState<number>(0);
     const [filterValue, setFilterValue] = useState<string>("");
@@ -72,6 +74,16 @@ function Home({ navigation }: HomeProps): React.JSX.Element {
             animated: false,
         });
     }, [scrollValue, networkStatus, loading]);
+
+    const nav = (id: string, title: string): void => {
+        navigation.navigate('DetailsStack', {
+            screen: 'Details',
+            params: {
+                itemId: id,
+                title,
+            },
+        })
+    }
 
     // useEffect(() => {
     //   const iniit = setInterval(() => {
@@ -119,10 +131,7 @@ function Home({ navigation }: HomeProps): React.JSX.Element {
                 {data?.tracksForHome.map((item: Track) => {
                     if (item.title.includes(filterValue)) {
                         return (
-                            <Card key={item.id} description={item.description} title={item.title} thumbnail={item.thumbnail} handlePress={() => navigation.navigate("Details", {
-                                itemId: item.id,
-                                title: item.title,
-                            })} numberOfViews={item.numberOfViews} />
+                            <Card key={item.id} description={item.description} title={item.title} thumbnail={item.thumbnail} handlePress={() => nav(item.id, item.title)} numberOfViews={item.numberOfViews} />
                         );
                     }
                 })}

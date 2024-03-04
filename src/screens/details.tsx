@@ -13,21 +13,23 @@
 import React, { useEffect, useLayoutEffect } from "react";
 import { View, StyleSheet, Text, Image, ScrollView } from "react-native";
 import { useQuery } from "@apollo/client";
-import { useRoute, useNavigation } from "@react-navigation/native";
+import { useRoute, useNavigation, RouteProp } from "@react-navigation/native";
 import { getCatInfo } from "../graphQL/queries";
 import { QueryResult } from "@apollo/client";
 import { Query } from "../__generated__/graphql";
 import { useMutation } from "@apollo/client";
 import { increaseTrackView } from "../graphQL/mutations";
-interface RouteParams {
-    itemId?: string;
-    title: string
-}
+import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
+import { DetailsStackType } from "../../navigation";
 
-function Details(): React.JSX.Element {
-    const route = useRoute();
-    const navigation = useNavigation();
-    const params = route.params as RouteParams;
+type DetailsNavigation = NativeStackNavigationProp<DetailsStackType, "Details">
+type DetailsScreenProps = NativeStackScreenProps<DetailsStackType, "Details">
+type DetailsRoute = RouteProp<DetailsStackType, "Details">
+
+function Details({ }: DetailsScreenProps): React.JSX.Element {
+    const route = useRoute<DetailsRoute>();
+    const navigation = useNavigation<DetailsNavigation>();
+    const params = route.params;
     const { itemId, title } = params;
 
     useLayoutEffect(() => {
