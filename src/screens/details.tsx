@@ -11,7 +11,7 @@
  */
 
 import React, { useEffect, useLayoutEffect } from "react";
-import { View, StyleSheet, Text, Image, ScrollView } from "react-native";
+import { View, StyleSheet, Text, Image, ScrollView, Button } from "react-native";
 import { useQuery } from "@apollo/client";
 import { useRoute, useNavigation, RouteProp } from "@react-navigation/native";
 import { getCatInfo } from "../graphQL/queries";
@@ -51,7 +51,6 @@ function Details({ }: DetailsScreenProps): React.JSX.Element {
         },
     })
 
-
     useEffect(() => {
         incrementTrackViews();
     }, [incrementTrackViews]);
@@ -67,6 +66,7 @@ function Details({ }: DetailsScreenProps): React.JSX.Element {
 
     return (
         <View style={styles.container}>
+            <Button onPress={() => navigation.pop()} title="go back" />
             <Image
                 style={{ width: '100%', height: 300, marginBottom: 30 }}
                 alt="lmao"

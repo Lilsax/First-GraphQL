@@ -24,7 +24,7 @@ const DetailsStack = () => {
         <_DetailsStack.Navigator initialRouteName="Details">
             <_DetailsStack.Screen
                 options={{
-                    headerShown: false,
+                    headerShown: true,
                 }}
                 name="Details"
                 component={Details}
@@ -62,7 +62,7 @@ const MainScreenStack = () => {
             />
             <MainStack.Screen
                 options={{
-                    headerShown: true,
+                    headerShown: false,
                 }}
                 name="DetailsStack"
                 component={DetailsStack}
