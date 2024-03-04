@@ -42,7 +42,7 @@ type HomeProps = {
 function Home({ navigation }: HomeProps): React.JSX.Element {
     const scrollRef = useRef<ScrollView>(null);
     const [scrollValue, setScrollValue] = useState<number>(0);
-    const [cityName, setCityName] = useState<string>("");
+    const [filterValue, setFilterValue] = useState<string>("");
     const { loading, error, data, refetch, networkStatus }: QueryResult<Query> =
         useQuery(getHomeData, {
             notifyOnNetworkStatusChange: true,
@@ -59,7 +59,8 @@ function Home({ navigation }: HomeProps): React.JSX.Element {
     };
 
     const handleCityNameChange = (_cityName: string) => {
-        setCityName(_cityName);
+        setFilterValue(_cityName);
+
     };
 
     useLayoutEffect(() => {
@@ -105,17 +106,19 @@ function Home({ navigation }: HomeProps): React.JSX.Element {
 
             <TextInput
                 style={styles.input}
-                value={cityName}
+                value={filterValue}
                 placeholder="useless placeholder"
                 onChangeText={handleCityNameChange}
             />
             {data?.tracksForHome.map((item: Track) => {
-                return (
-                    <Card key={item.id} description={item.description} title={item.title} thumbnail={item.thumbnail} handlePress={() => navigation.navigate("Details", {
-                        itemId: item.id,
-                        title: item.title,
-                    })} numberOfViews={item.numberOfViews} />
-                );
+                if (item.title.includes(filterValue)) {
+                    return (
+                        <Card key={item.id} description={item.description} title={item.title} thumbnail={item.thumbnail} handlePress={() => navigation.navigate("Details", {
+                            itemId: item.id,
+                            title: item.title,
+                        })} numberOfViews={item.numberOfViews} />
+                    );
+                }
             })}
         </ScrollView>
     );
