@@ -1,9 +1,12 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer, NavigatorScreenParams } from '@react-navigation/native';
 import Home from './src/screens/home';
 import Details from './src/screens/details';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {
+  NavigationContainer,
+  NavigatorScreenParams,
+} from '@react-navigation/native';
 
 export type HomeStackType = {
     Home: undefined;

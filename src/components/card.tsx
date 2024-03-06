@@ -14,32 +14,44 @@ import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity, Image } from "react-native";
 
 type CardProps = {
-    handlePress: () => void;
-    thumbnail: string,
-    title: string,
-    numberOfViews: number,
-    description: string | undefined
-}
+  handlePress: () => void;
+  thumbnail: string;
+  title: string;
+  numberOfViews: number;
+  description: string | undefined;
+  btnTestID?: string;
+  imgTestID?: string;
+};
 
-function Card({ handlePress, thumbnail, title, numberOfViews }: CardProps): React.JSX.Element {
-    return (
-        <View style={{ width: "100%", marginVertical: 20, borderRadius: 5 }} key={title}>
-            <TouchableOpacity
-                onPress={handlePress
-                }
-            >
-                <Image
-                    style={styles.img}
-                    source={{
-                        uri: thumbnail,
-                    }}
-                    alt="some image"
-                />
-                <Text style={styles.textName}>{title}</Text>
-                <Text style={{ textAlign: 'left', fontStyle: 'italic' }}> {`Number Of Views : ${numberOfViews}`} </Text>
-            </TouchableOpacity>
-        </View>
-    );
+function Card({
+  handlePress,
+  thumbnail,
+  title,
+  numberOfViews,
+  btnTestID,
+  imgTestID,
+}: CardProps): React.JSX.Element {
+  return (
+    <View
+      style={{ width: "100%", marginVertical: 20, borderRadius: 5 }}
+      key={title}
+    >
+      <TouchableOpacity testID={btnTestID} onPress={handlePress}>
+        <Image
+          style={styles.img}
+          source={{
+            uri: thumbnail,
+          }}
+          alt="some image"
+          testID={imgTestID}
+        />
+        <Text style={styles.textName}>{title}</Text>
+        <Text style={{ textAlign: "left", fontStyle: "italic" }}>
+          {`Number Of Views : ${numberOfViews}`}
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
