@@ -102,6 +102,11 @@ function Home(): React.JSX.Element {
       </View>
     );
   }
+
+  const returnString = () => {
+    return "sleman"
+  }
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Button
@@ -113,9 +118,10 @@ function Home(): React.JSX.Element {
       />
       <View style={{ marginVertical: 10 }} />
       <Button
-        onPress={() => console.log("commenting") /*getData()*/}
+        onPress={() => returnString() /*getData()*/}
         title="Get Data"
         color={"pink"}
+        testID="owo"
       />
       <ScrollView
         ref={scrollRef}

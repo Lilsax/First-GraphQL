@@ -149,5 +149,15 @@ describe("testing the full functionlity of the card", () => {
     expect(await screen.findByText("An error occurred")).toBeDefined();
   });
 
+  test("getting a string back when click get data button", async () => {
+    render(
+      <MockedProvider mocks={successMocks} addTypename={false}>
+        <App />
+      </MockedProvider>
+    );
 
+    const btn = await screen.findByTestId("owo");
+    const returnData = fireEvent.press(btn);
+    expect(returnData).toBe("sleman");
+  });
 });
