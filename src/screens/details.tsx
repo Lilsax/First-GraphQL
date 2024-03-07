@@ -18,6 +18,7 @@ import {
   Image,
   ScrollView,
   Button,
+  TouchableOpacity,
 } from "react-native";
 import { useQuery } from "@apollo/client";
 import { useRoute, useNavigation, RouteProp } from "@react-navigation/native";
@@ -31,6 +32,8 @@ import {
   NativeStackScreenProps,
 } from "@react-navigation/native-stack/lib/typescript/src/types";
 import { DetailsStackType } from "../../navigation";
+import Share from "react-native-share";
+
 type DetailsNavigation = NativeStackNavigationProp<DetailsStackType, "Details">;
 type DetailsScreenProps = NativeStackScreenProps<DetailsStackType, "Details">;
 type DetailsRoute = RouteProp<DetailsStackType, "Details">;
@@ -61,7 +64,6 @@ function Details({}: DetailsScreenProps): React.JSX.Element {
     variables: { trackId: itemId },
   });
 
-
   const [incrementTrackViews] = useMutation(increaseTrackView, {
     variables: { incrementTrackViewsId: itemId },
     onCompleted: (_data) => {
@@ -87,13 +89,34 @@ function Details({}: DetailsScreenProps): React.JSX.Element {
     <View testID="detailsScreenView" style={styles.container}>
       <Button onPress={() => navigation.pop()} title="go back" />
       <Image
-        style={{ width: "100%", height: 300, marginBottom: 30 }}
+        style={{ width: "100%", height: 300, marginBottom: 10 }}
         alt="lmao"
         source={{
           uri: data?.track.thumbnail,
         }}
       />
 
+      <TouchableOpacity
+        testID="sharing-soical"
+        style={{
+          width: "90%",
+          height: 50,
+          alignItems: "center",
+          flexDirection: "row",
+          justifyContent: "center",
+          backgroundColor: "pink",
+          marginBottom: 10,
+          borderRadius: 20,
+          alignSelf: "center",
+        }}
+        onPress={() => {
+          Share.open({
+            message: "congratz on buying this cat for 2 dolalrs uwu",
+          })
+        }}
+      >
+        <Text>Share This Cat uwu</Text>
+      </TouchableOpacity>
       <ScrollView>
         <Text
           style={{ width: "100%", paddingHorizontal: 10, textAlign: "left" }}

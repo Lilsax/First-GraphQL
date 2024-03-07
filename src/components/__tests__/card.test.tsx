@@ -7,6 +7,12 @@ import App from "../../../App";
 import { getCatInfo, getHomeData } from "../../graphQL/queries";
 import { MockedProvider } from "@apollo/client/testing";
 import { increaseTrackView } from "../../graphQL/mutations";
+import Share from "react-native-share";
+
+// Mock react-native-share module
+jest.mock("react-native-share", () => ({
+  open: jest.fn(),
+}));
 
 describe("testing the full functionlity of the card", () => {
   const pressFunction = jest.fn();
@@ -98,10 +104,17 @@ describe("testing the full functionlity of the card", () => {
     },
   ];
 
+  const mockAppComponent = (
+    <MockedProvider mocks={successMocks} addTypename={false}>
+      <App />
+    </MockedProvider>
+  );
+
   test("Snapshot test", () => {
     const { toJSON } = render(cardItem);
     expect(toJSON()).toMatchSnapshot();
   });
+
   test("title rendered correct", () => {
     const { getByText } = render(cardItem);
     expect(getByText("title test")).toBeTruthy();
@@ -125,11 +138,7 @@ describe("testing the full functionlity of the card", () => {
   });
 
   test("on button press it will navigate to another screen ", async () => {
-    render(
-      <MockedProvider mocks={successMocks} addTypename={false}>
-        <App />
-      </MockedProvider>
-    );
+    render(mockAppComponent);
 
     expect(await screen.findByText("<<<< LOADING >>>>")).toBeDefined();
     expect(
@@ -150,14 +159,49 @@ describe("testing the full functionlity of the card", () => {
   });
 
   test("getting a string back when click get data button", async () => {
-    render(
-      <MockedProvider mocks={successMocks} addTypename={false}>
-        <App />
-      </MockedProvider>
-    );
+    render(mockAppComponent);
 
     const btn = await screen.findByTestId("owo");
     const returnData = fireEvent.press(btn);
     expect(returnData).toBe("sleman");
+  });
+
+  test("testing that share button is working ", async () => {
+    render(mockAppComponent);
+
+    fireEvent.press(await screen.findByTestId("card-btn"));
+    fireEvent.press(await screen.findByTestId("sharing-soical"));
+
+    expect(Share.open).toHaveBeenCalledWith({
+      message: "congratz on buying this cat for 2 dolalrs uwu",
+    });
+  });
+
+  test("testing a promise ", async () => {
+    const close = (
+      obj: Record<string, any> & {
+        message: string;
+      }
+    ) =>
+      new Promise((resolve, reject) => {
+        if (obj.message.length < 10) {
+          reject("failed");
+        } else {
+          resolve(obj.message);
+        }
+      });
+
+    const resolvedData = close({
+      message: "congratz on buying this cat for 2 dolalrs uwu",
+    });
+
+    const rejectedData = close({
+      message: "owo",
+    });
+
+    expect(resolvedData).resolves.toBeTruthy();
+
+    expect(rejectedData).rejects.toBeTruthy();
+    expect(rejectedData).rejects.toBe("failed");
   });
 });
